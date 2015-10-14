@@ -55,6 +55,97 @@
         <!--Jetty Websocket client side dependencies start here -->
 
         <!--Jetty Websocket client side  dependencies end here -->
+
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv</artifactId>
+            <version>0.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacpp</artifactId>
+            <version>0.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>opencv</artifactId>
+            <version>2.4.10-0.10</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>ffmpeg</artifactId>
+            <version>2.5.1-0.10</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>flycapture</artifactId>
+            <version>2.7.3.13-0.10</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>libdc1394</artifactId>
+            <version>2.2.2-0.10</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>libfreenect</artifactId>
+            <version>0.5.1-0.10</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>videoinput</artifactId>
+            <version>0.200-0.10</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>artoolkitplus</artifactId>
+            <version>2.3.1-0.10</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>flandmark</artifactId>
+            <version>1.07-0.10</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>fftw</artifactId>
+            <version>3.3.4-0.9</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>gsl</artifactId>
+            <version>1.16-0.9</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>llvm</artifactId>
+            <version>3.4.2-0.9</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>leptonica</artifactId>
+            <version>1.71-0.9</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>tesseract</artifactId>
+            <version>3.03-rc1-0.9</version>
+            <classifier>macosx-x86_64</classifier>
+        </dependency>
     </dependencies>
 
 </project>
