@@ -1,6 +1,9 @@
 package test.websocket;
 
-import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Timer;
 
 import org.eclipse.jetty.websocket.api.Session;
@@ -15,7 +18,12 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
  */
 @WebSocket
 public class MyWebSocketHandler {
-    private Timer streamingTimer;
+    private Timer audioTimer;
+    private Timer videoTimer;
+    private List websocketData;
+    private Timer dataTimer;
+
+//Make an ArrayList to hold RaceCar objects to determine winners
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
@@ -31,18 +39,21 @@ public class MyWebSocketHandler {
     public void onConnect(Session session) {
         System.out.println("Connect: " + session.getRemoteAddress().getAddress());
 
-        RTMPTest test = new RTMPTest(session);
+        List<ByteBuffer> websocketData = Collections.synchronizedList(new ArrayList<ByteBuffer>());
 
-        streamingTimer = new Timer();
-        streamingTimer.schedule(test, 0, (int)(1000.0f/Integer.parseInt("30")));
+        RTMPAudio audio = new RTMPAudio(websocketData);
+        RTMPVideo video = new RTMPVideo(websocketData);
+        RTMPSend data = new RTMPSend(session, websocketData);
 
-        /*
-        try {
-            session.getRemote().sendString("Hello Webbrowser");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
+        audioTimer = new Timer();
+        audioTimer.scheduleAtFixedRate(audio, 0, 10);
+
+
+        videoTimer = new Timer();
+        videoTimer.scheduleAtFixedRate(video, 0, 30);
+
+        dataTimer = new Timer();
+        dataTimer.scheduleAtFixedRate(data, 0, 15);
     }
 
     @OnWebSocketMessage

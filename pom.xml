@@ -55,6 +55,11 @@
         <!--Jetty Websocket client side dependencies start here -->
 
         <!--Jetty Websocket client side  dependencies end here -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>17.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.bytedeco</groupId>

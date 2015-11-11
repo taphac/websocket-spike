@@ -1,11 +1,9 @@
 package test.websocket;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import com.google.common.util.concurrent.RateLimiter;
 import org.bytedeco.javacpp.opencv_core;
-import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FrameGrabber;
-import org.eclipse.jetty.websocket.api.Session;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -14,23 +12,22 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.awt.image.renderable.ParameterBlock;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.TimerTask;
+import java.nio.ByteBuffer;
+import java.util.*;
 
 
-public class RTMPTest extends TimerTask {
-    FFmpegFrameGrabber grabber;
-    CanvasFrame canvas;
-    opencv_core.IplImage capturedFrame;
-    Session session;
+public class RTMPVideo extends TimerTask {
+    private FFmpegFrameGrabber grabber;
+    private opencv_core.IplImage capturedFrame;
+    private java.util.List<ByteBuffer> websocketData;
+    private RateLimiter rateLimiter;
 
-    public RTMPTest(Session mySession) {
-        session = mySession;
+    public RTMPVideo(java.util.List data) {
+        websocketData = data;
 
-        grabber = new FFmpegFrameGrabber("rtmp://93.93.85.123/live/1_400_400_750000");
+        grabber = new FFmpegFrameGrabber("rtmp://93.93.85.123/games-platform/2_400_400_750000");
 
         try {
             grabber.start();
@@ -38,23 +35,22 @@ public class RTMPTest extends TimerTask {
             e.printStackTrace();
         }
 
-        canvas = new CanvasFrame("JavaCV player");
-
         capturedFrame = null;
 
-        //cFrame.dispose();
-        //grabber.stop();
+        rateLimiter = RateLimiter.create(30);
+
     }
 
-    public void run()  {
+    public void run() {
+        rateLimiter.acquire();
+        stream();
+    }
+
+    private void stream() {
         try {
             capturedFrame = grabber.grab();
         } catch (FrameGrabber.Exception e) {
             e.printStackTrace();
-        }
-
-        if (capturedFrame == null) {
-            System.out.println("!!! Failed cvQueryFrame");
         }
 
         try {
@@ -84,22 +80,17 @@ public class RTMPTest extends TimerTask {
             ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
             jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
 
-            jpgWriteParam.setCompressionQuality(0.5f);
+            jpgWriteParam.setCompressionQuality(0.6f);
 
             jpgWriter.setOutput(outputStream);
             jpgWriter.write(null, outputImage, jpgWriteParam);
 
-            String img = new String(Base64.encode(byteArray.toByteArray()));
-
-            session.getRemote().sendString(img);
-
-            jpgWriter.dispose();
+            websocketData.add(ByteBuffer.wrap(byteArray.toByteArray()));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        canvas.showImage(capturedFrame);
     }
 
 }
